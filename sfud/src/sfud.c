@@ -251,7 +251,7 @@ static sfud_err hardware_init(sfud_flash *flash) {
         return result;
     }
 
-    /* I found when the flash read mode is supported AAI mode. The flash all blocks is protected,
+    /* I found when the flash write mode is supported AAI mode. The flash all blocks is protected,
      * so need change the flash status to unprotected before write and erase operate. */
     if (flash->chip.write_mode & SFUD_WM_AAI) {
         result = sfud_write_status(flash, true, 0x00);
@@ -261,7 +261,7 @@ static sfud_err hardware_init(sfud_flash *flash) {
     }
 
     /* if the flash is large than 16MB (256Mb) then enter in 4-Byte addressing mode */
-    if (flash->chip.capacity > (1 << 24)) {
+    if (flash->chip.capacity > (1L << 24)) {
         result = set_4_byte_address_mode(flash, true);
     } else {
         flash->addr_in_4_byte = false;
